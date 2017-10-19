@@ -1,60 +1,94 @@
 var app = function () {
   var canvas = document.querySelector("#main-canvas")
   var context = canvas.getContext("2d")
+  canvas.focus();
+  var currentX = 260;
+  var currentY = 175;
 
-  // context.strokeStyle = "dodgerBlue"
-  context.fillStyle = "dodgerBlue"
-  // context.strokeRect(10, 10, 50, 50)
-  context.fillRect(10, 10, 50, 50)
-
-  context.beginPath()
-  context.moveTo(100, 100)
-  context.lineTo(100, 200)
-  context.stroke()
-
-  context.beginPath()
-  context.moveTo(200, 200)
-  context.lineTo(200, 300)
-  context.lineTo(100, 300)
-  context.closePath()
-  context.fill()
-
-  context.beginPath()
-  context.arc(300, 300, 40, 0, 360)
-  context.closePath()
-  context.stroke()
-  context.fill()
-
-
-
-  canvas.addEventListener("move", function (event) {
-    // console.log("clicked", event)
-    drawCircle(event.x, event.y)
+  var button = document.querySelector("button")
+  button.addEventListener("click", function () {
+    console.log("Shaked")
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    canvas.focus();
   })
 
-  var img = document.createElement("img")
-  img.src = "http://emojis.slackmojis.com/emojis/images/1457563042/312/doge.png"
-    var drawDoge = function () {
-      context.drawImage(img, 400, 400, 90, 90)
+  canvas.addEventListener("keydown", function (event) {
+    calcNewPosition(event)
+    drawLine(event)
+
+  })
+
+  var chooseDirection = function(event) {
+    var key = event.key
+    console.log(key);
+  }
+
+  var drawLine = function () {
+    // if (currentY === undefined && currentY === undefined){
+    // currentX = 300;
+    // currentY = 250;
+    // }
+
+    var standardIncrement = 5;
+    context.lineTo(currentX, currentY);
+    context.stroke()
+
+  }
+
+  var calcNewPosition = function (event) {
+    context.beginPath()
+    context.moveTo(currentX, currentY);
+    console.log("currentY", currentY);
+    console.log("currentX", currentX);
+
+    switch (event.key) {
+
+      case "ArrowUp":
+        if (currentY > 0){
+        console.log("Up");
+        currentY -= 10;
+      }
+        break;
+      case "ArrowDown":
+      if (currentY < 345){
+        console.log("Down");
+        currentY += 10;
+      }
+        break;
+      case "ArrowRight":
+      if (currentX < 521){
+        console.log("Right");
+        currentX += 10;
+      }
+        break;
+      case "ArrowLeft":
+      if (currentX > 0 ){
+        console.log("Left");
+        currentX -= 10;
+      }
+        break;
+
     }
+  }
 
-    img.addEventListener("move", drawDoge)
 
-    var changeColour = function () {
-      context.fillStyle = this.value
-    }
 
-    var colourPicker = document.querySelector("#input-colour")
-    colourPicker.addEventListener("change", changeColour)
 
-    var drawCircle = function (x, y) {
-      context.beginPath()
-      context.arc(x, y, 40, 0, 360)
-      context.closePath()
-      context.stroke()
-      context.fill()
-
-    }
 }
 
+
+
+
+
 window.addEventListener("load", app)
+
+
+
+
+
+// var map = {}; // You could also use an array
+// onkeydown = onkeyup = function(e){
+//     e = e || event; // to deal with IE
+//     map[e.keyCode] = e.type == 'keydown';
+//     /* insert conditional here */
+// }
